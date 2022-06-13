@@ -18,6 +18,6 @@ RUN npm install --development
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 5000
 
 CMD ["nodemon", "src/server.js"]
