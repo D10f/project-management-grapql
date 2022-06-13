@@ -1,0 +1,29 @@
+version: '2.4'
+
+services:
+  server:
+    build:
+      context: .
+      target: development
+    ports:
+      - 3000:3000
+    volumes:
+      - ./server/:/app
+    networks:
+      - frontend
+      - backend
+    env_file:
+      - .env
+
+  mongo:
+    image: mongo:5-focal
+    networks:
+      - backend
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+      MONGO_INITDB_DATABASE: project-management
+
+networks:
+  frontend: {}
+  backend: {}
