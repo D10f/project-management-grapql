@@ -8,7 +8,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./server/:/app
+      - /usr/share/app/node_modules
+      - ./:/usr/share/app/
     networks:
       - frontend
       - backend

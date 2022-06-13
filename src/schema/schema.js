@@ -5,7 +5,8 @@ import {
   GraphQLSchema,
   GraphQLList,
 } from 'graphql';
-import { clients, projects } from '../data.js';
+import Client from '../models/Client.js';
+import Project from '../models/Project.js';
 
 // Client Type
 const ClientType = new GraphQLObjectType({
@@ -29,7 +30,7 @@ const ProjectType = new GraphQLObjectType({
     client: {
       type: ClientType,
       resolve(parent) {
-        return clients.find((client) => client.id === parent.id);
+        return Client.findById(parent.id);
       },
     },
   }),
@@ -41,7 +42,7 @@ const RootQuery = new GraphQLObjectType({
     clients: {
       type: new GraphQLList(ClientType),
       resolve(_parent) {
-        return clients;
+        return Client.find({});
       },
     },
     client: {
@@ -52,13 +53,13 @@ const RootQuery = new GraphQLObjectType({
         },
       },
       resolve(_parent, args) {
-        return clients.find((client) => client.id === args.id);
+        return Client.findById(args.id);
       },
     },
     projects: {
       type: new GraphQLList(ProjectType),
       resolve(_parent) {
-        return projects;
+        return Project.find({});
       },
     },
     project: {
@@ -69,7 +70,7 @@ const RootQuery = new GraphQLObjectType({
         },
       },
       resolve(_parent, args) {
-        return projects.find((client) => client.id === args.id);
+        return Project.findById(args.id);
       },
     },
   },
