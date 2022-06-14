@@ -6,7 +6,7 @@ services:
       context: .
       target: development
     ports:
-      - 5000:3000
+      - 5000:5000
     volumes:
       - /usr/share/app/node_modules
       - ./:/usr/share/app/
