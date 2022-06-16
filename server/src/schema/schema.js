@@ -64,6 +64,23 @@ const mutation = new GraphQLObjectType({
         return Client.findByIdAndRemove(id);
       },
     },
+    updateClient: {
+      type: ClientType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        phone: { type: GraphQLString },
+      },
+      async resolve(_parent, { id, name, email, phone }) {
+        const result = await Client.findByIdAndUpdate(
+          id,
+          { name, email, phone },
+          { new: true, lean: true },
+        );
+        return result;
+      },
+    },
     addProject: {
       type: ProjectType,
       args: {

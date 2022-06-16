@@ -8,7 +8,10 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon ./src/server.js"
+    "start": "nodemon ./src/server.js",
+    "lint:check": "eslint",
+    "lint:format": "eslint --fix",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -21,8 +24,7 @@
   "devDependencies": {
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.16",
-    "prettier": "^2.6.2"
+    "prettier": "^2.7.0"
   }
 }
