@@ -28,6 +28,7 @@ function ClientRow({ id, name, email, phone }) {
 
   const [updateClient, updateClientOptions] = useMutation(UPDATE_CLIENT, {
     variables: { id, ...cellValues },
+    refetchQueries: [{ query: GET_CLIENTS }],
     update(cache, { data }) {
       const { clients } = cache.readQuery({ query: GET_CLIENTS });
       cache.writeQuery({
