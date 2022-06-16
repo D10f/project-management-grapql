@@ -35,7 +35,7 @@ function ClientsTable() {
   }
 
   return (
-    <Table>
+    <Table sx={{ margin: "10px 0" }}>
       <TableHead>
         <TableRow>
           <TableCell>ID</TableCell>
