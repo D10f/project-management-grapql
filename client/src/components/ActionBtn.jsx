@@ -1,9 +1,17 @@
 import { useState } from "react";
-import { CircularProgress, IconButton } from "@mui/material";
+import { CircularProgress, IconButton, Tooltip } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
 import Toast from "./Toast";
 
-function ActionBtn({ action, disabled, loading, error, icon, successMsg }) {
+function ActionBtn({
+  action,
+  title,
+  disabled,
+  loading,
+  error,
+  icon,
+  successMsg,
+}) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -33,11 +41,13 @@ function ActionBtn({ action, disabled, loading, error, icon, successMsg }) {
         message={toastMessage}
       />
 
-      <IconButton disabled={disabled} onClick={handleClick}>
-        {loading && <CircularProgress size={20} />}
-        {error && <ReplayIcon />}
-        {!loading && !error && icon}
-      </IconButton>
+      <Tooltip title={title}>
+        <IconButton disabled={disabled} onClick={handleClick}>
+          {loading && <CircularProgress size={20} />}
+          {error && <ReplayIcon />}
+          {!loading && !error && icon}
+        </IconButton>
+      </Tooltip>
     </>
   );
 }

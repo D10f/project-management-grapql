@@ -1,3 +1,5 @@
+import { useQuery } from "@apollo/client";
+import { GET_CLIENTS } from "../queries/clients";
 import {
   Table,
   TableBody,
@@ -6,10 +8,8 @@ import {
   TableCell,
   CircularProgress,
 } from "@mui/material";
-import { useQuery } from "@apollo/client";
-import { GET_CLIENTS } from "../queries/clients";
-import ClientRow from "./ClientRow";
 import { Container } from "@mui/system";
+import ClientRow from "./ClientRow";
 
 function ClientsTable() {
   const { loading, error, data } = useQuery(GET_CLIENTS);

@@ -68,7 +68,7 @@ function ClientRow({ id, name, email, phone }) {
 
   return (
     <TableRow hover>
-      <TableCell>{id}</TableCell>
+      <TableCell sx={{ width: 250 }}>{id}</TableCell>
       <ClientCell
         value={name}
         name="name"
@@ -95,6 +95,7 @@ function ClientRow({ id, name, email, phone }) {
             error={updateClientOptions.error}
             icon={<SaveIcon />}
             successMsg="Client updated successfully"
+            title="Save changes"
           />
         )}
         <ActionBtn
@@ -104,6 +105,7 @@ function ClientRow({ id, name, email, phone }) {
           error={deleteClientOptions.error}
           icon={<DeleteIcon />}
           successMsg="Client deleted successfully"
+          title="Delete client"
         />
       </TableCell>
     </TableRow>

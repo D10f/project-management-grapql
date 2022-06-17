@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import { TableCell, TextField } from "@mui/material";
+import { IconButton, TableCell, TextField, Tooltip } from "@mui/material";
+import UndoIcon from "@mui/icons-material/Undo";
 
-const TableCellContent = styled("p")(({ theme, hasUpdates }) => ({
+const TableCellContent = styled("pre")(({ theme, hasUpdates }) => ({
+  fontFamily: theme.typography.fontFamily,
   color: hasUpdates ? theme.palette.primary.main : theme.palette.common.black,
 }));
 
@@ -20,10 +22,17 @@ function ClientCell({ value, name, placeholder, handleCellUpdate }) {
     handleCellUpdate(e.target.name, e.target.value);
   };
 
+  const handleResetCell = () => {
+    setNewValue(value);
+    setIsEditing(false);
+    setHasUpdates(false);
+    handleCellUpdate(name, value);
+  };
+
   const toggleEditor = () => setIsEditing(!editing);
 
   return (
-    <TableCell onDoubleClick={toggleEditor}>
+    <TableCell padding="none" size="small" onDoubleClick={toggleEditor}>
       {editing ? (
         <TextField
           multiline
@@ -37,6 +46,22 @@ function ClientCell({ value, name, placeholder, handleCellUpdate }) {
           onChange={handleChange}
           color={hasUpdates ? "primary" : "dark"}
           sx={{ maxWidth: "80%", padding: "0" }}
+          InputProps={
+            hasUpdates && {
+              endAdornment: (
+                <Tooltip title="Reset">
+                  <IconButton
+                    size="small"
+                    disableRipple={true}
+                    onClick={handleResetCell}
+                    sx={{ padding: "0" }}
+                  >
+                    <UndoIcon />
+                  </IconButton>
+                </Tooltip>
+              ),
+            }
+          }
         />
       ) : (
         <TableCellContent hasUpdates={hasUpdates}>{newValue}</TableCellContent>
