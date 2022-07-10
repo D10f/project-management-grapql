@@ -4,13 +4,21 @@ import { DELETE_CLIENT, UPDATE_CLIENT } from "../mutations/clients";
 import { GET_CLIENTS } from "../queries/clients";
 
 import { TableCell, TableRow } from "@mui/material";
+
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import ClientCell from "./ClientCell";
 import ActionBtn from "./ActionBtn";
+import Toast from "./Toast";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 function ClientRow({ id, name, email, phone }) {
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
   const [cellValues, setCellValues] = useState({
     name,
     email,
@@ -67,48 +75,80 @@ function ClientRow({ id, name, email, phone }) {
   };
 
   return (
-    <TableRow hover>
-      <TableCell sx={{ width: 250 }}>{id}</TableCell>
-      <ClientCell
-        value={name}
-        name="name"
-        handleCellUpdate={handleCellUpdate}
+    <>
+      <Toast
+        key={crypto.randomUUID()}
+        open={showToast}
+        onClose={() => {
+          setShowToast(false);
+          setToastMessage("");
+        }}
+        type={
+          updateClientOptions.error || deleteClientOptions.error
+            ? "error"
+            : "success"
+        }
+        anchorOrigin={{ horizontal: "right", vertical: "top" }}
+        autoHideDuration={6000}
+        message={toastMessage}
       />
-      <ClientCell
-        value={email}
-        name="email"
-        handleCellUpdate={handleCellUpdate}
+
+      <ConfirmationDialog
+        open={showConfirmDialog}
+        onCancel={() => setShowConfirmDialog(false)}
+        onConfirm={() => {}}
       />
-      <ClientCell
-        value={phone}
-        name="phone"
-        handleCellUpdate={handleCellUpdate}
-      />
-      <TableCell align="right">
-        {hasUpdates && (
-          <ActionBtn
-            action={updateClient}
-            disabled={
-              updateClientOptions.loading || deleteClientOptions.loading
-            }
-            loading={updateClientOptions.loading}
-            error={updateClientOptions.error}
-            icon={<SaveIcon />}
-            successMsg="Client updated successfully"
-            title="Save changes"
-          />
-        )}
-        <ActionBtn
-          action={deleteClient}
-          disabled={deleteClientOptions.loading || updateClientOptions.loading}
-          loading={deleteClientOptions.loading}
-          error={deleteClientOptions.error}
-          icon={<DeleteIcon />}
-          successMsg="Client deleted successfully"
-          title="Delete client"
+
+      <TableRow hover>
+        <TableCell sx={{ width: 250 }}>{id}</TableCell>
+        <ClientCell
+          value={name}
+          name="name"
+          handleCellUpdate={handleCellUpdate}
         />
-      </TableCell>
-    </TableRow>
+        <ClientCell
+          value={email}
+          name="email"
+          handleCellUpdate={handleCellUpdate}
+        />
+        <ClientCell
+          value={phone}
+          name="phone"
+          handleCellUpdate={handleCellUpdate}
+        />
+        <TableCell align="right">
+          {hasUpdates && (
+            <ActionBtn
+              action={updateClient}
+              disabled={
+                updateClientOptions.loading || deleteClientOptions.loading
+              }
+              loading={updateClientOptions.loading}
+              error={updateClientOptions.error}
+              icon={<SaveIcon />}
+              successMsg="Client updated successfully"
+              title="Save changes"
+              setShowToast={setShowToast}
+              setToastMessage={setToastMessage}
+            />
+          )}
+          <ActionBtn
+            action={deleteClient}
+            disabled={
+              deleteClientOptions.loading || updateClientOptions.loading
+            }
+            loading={deleteClientOptions.loading}
+            error={deleteClientOptions.error}
+            icon={<DeleteIcon />}
+            successMsg="Client deleted successfully"
+            confirmMsg="Are you sure you want to delete this client?"
+            title="Delete client"
+            setShowToast={setShowToast}
+            setToastMessage={setToastMessage}
+          />
+        </TableCell>
+      </TableRow>
+    </>
   );
 }
 

@@ -47,20 +47,22 @@ function ClientCell({ value, name, placeholder, handleCellUpdate }) {
           color={hasUpdates ? "primary" : "dark"}
           sx={{ maxWidth: "80%", padding: "0" }}
           InputProps={
-            hasUpdates && {
-              endAdornment: (
-                <Tooltip title="Reset">
-                  <IconButton
-                    size="small"
-                    disableRipple={true}
-                    onClick={handleResetCell}
-                    sx={{ padding: "0" }}
-                  >
-                    <UndoIcon />
-                  </IconButton>
-                </Tooltip>
-              ),
-            }
+            hasUpdates
+              ? {
+                  endAdornment: (
+                    <Tooltip title="Reset">
+                      <IconButton
+                        size="small"
+                        disableRipple={true}
+                        onClick={handleResetCell}
+                        sx={{ padding: "0" }}
+                      >
+                        <UndoIcon />
+                      </IconButton>
+                    </Tooltip>
+                  ),
+                }
+              : {}
           }
         />
       ) : (

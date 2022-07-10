@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { CircularProgress, IconButton, Tooltip } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
-import Toast from "./Toast";
 
 function ActionBtn({
   action,
@@ -11,10 +9,10 @@ function ActionBtn({
   error,
   icon,
   successMsg,
+  confirmMsg,
+  setShowToast,
+  setToastMessage,
 }) {
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-
   const handleClick = async () => {
     try {
       await action();
@@ -27,28 +25,13 @@ function ActionBtn({
   };
 
   return (
-    <>
-      <Toast
-        key={crypto.randomUUID()}
-        open={showToast}
-        onClose={() => {
-          setShowToast(false);
-          setToastMessage("");
-        }}
-        type={error ? "error" : "success"}
-        anchorOrigin={{ horizontal: "right", vertical: "top" }}
-        autoHideDuration={6000}
-        message={toastMessage}
-      />
-
-      <Tooltip title={title}>
-        <IconButton disabled={disabled} onClick={handleClick}>
-          {loading && <CircularProgress size={20} />}
-          {error && <ReplayIcon />}
-          {!loading && !error && icon}
-        </IconButton>
-      </Tooltip>
-    </>
+    <Tooltip title={title}>
+      <IconButton disabled={disabled} onClick={handleClick}>
+        {loading && <CircularProgress size={20} />}
+        {error && <ReplayIcon />}
+        {!loading && !error && icon}
+      </IconButton>
+    </Tooltip>
   );
 }
 
